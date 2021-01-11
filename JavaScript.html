@@ -1,0 +1,133 @@
+<html> 
+  <head> 
+    <meta charset="UTF-8">
+    <title>Template for Practicing Javascript</title> 
+	<script> function obtainStateData() {
+
+
+	var stateDataArr = [];
+
+while(true)
+{
+	// Obtain the information from user input
+	let state = prompt('Enter state Name', 
+	'NSW'
+	);
+	let noOfHouseholds = prompt(
+		'Enter the number of households in the state',
+		'150'
+	);
+
+	let noOfAC = prompt(
+		'Enter the number of household with air conditioning',
+		'50'
+	);
+
+	let noOfSP = prompt('Enter the number of household with solar panels', 
+	'20'
+	);
+
+
+	// Add data to object
+	let stateData = {state, noOfHouseholds, noOfAC, noOfSP };
+	//Push data to array of objects
+	stateDataArr.push(stateData);
+
+	//Check if user would like to add more data
+	const answer = confirm('Would you like to add more state data?');
+	
+	//If false break out of while loop
+	if(answer == false){
+		break;
+	}
+
+	//console.log('First array data is: ' + stateData.state);
+
+}
+
+//Check array data
+//for(let i = 0; i < arr.length; i++){
+	//console.log(arr[i]);
+//}
+
+	return stateDataArr //stateData;
+
+}
+
+function calculatePercentage(userDataArray) {
+
+let arrCalculatedData = [];	
+
+//For loop to push data into array of objects
+for(let i = 0; i < userDataArray.length; i++){
+
+let state = userDataArray[i].state;
+let totalHouseholds = userDataArray[i].noOfHouseholds; 
+
+//Not fixed calculations
+let percentageOfACNF = (userDataArray[i].noOfAC / totalHouseholds) * 100;
+let percentageOfSPNF = (userDataArray[i].noOfSP / totalHouseholds) * 100;
+
+//Fixed calculations
+let percentageOfAC = percentageOfACNF.toFixed(2);
+let percentageOfSP = percentageOfSPNF.toFixed(2);
+
+//Object data
+let calcualtions = {state, totalHouseholds, percentageOfAC, percentageOfSP};
+//Push data to array of objects
+arrCalculatedData.push(calcualtions);
+	
+}
+	//Check array data
+	//for(let i = 0; i < arrCalculatedData.length; i++){
+	//console.log(arrCalculatedData[i]);
+//	}
+
+	//let calcualtions = {totalHouseholds, percentageOfAC, percentageOfSP}
+
+
+	return arrCalculatedData;
+}
+
+
+function tabulateData(data){
+
+//Make table for data
+
+document.write("<table> <tr> <th>	State </th> <th>	Houses </th> <th>	% of houses with AC </th> <th>	% of houses with Solar</th> </tr>")
+for(let i = 0; i < data.length; i++){
+
+	document.write( "<tr><td>	" 
+								+ data[i].state 
+								+ "</td><td>	"
+								+ data[i].totalHouseholds
+								+ "</td><td>	"	
+								+ data[i].percentageOfAC 
+								+ "</td><td>	"	
+								+ data[i].percentageOfSP
+								+ "</td></tr>"	
+								+ "<br>"
+	);
+
+	document.write("</table>");
+}
+
+}
+
+let userData = [];
+let calculatedData = [];
+
+// User input function
+userData = obtainStateData();
+//Calculate percentages
+calculatedData = calculatePercentage(userData);
+//Tabulate data
+tabulateData(calculatedData);
+
+
+    </script> 
+  </head> 
+  <body> 
+    <!-- Not much to see here. -->
+  </body> 
+</html> 
