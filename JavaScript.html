@@ -2,118 +2,249 @@
   <head> 
     <meta charset="UTF-8">
     <title>Template for Practicing Javascript</title> 
-	<script> function obtainStateData() {
-
-
-	var stateDataArr = [];
-
-while(true)
-{
-	// Obtain the information from user input
-	let state = prompt('Enter state Name', 
-	'NSW'
-	);
-	let noOfHouseholds = prompt(
-		'Enter the number of households in the state',
-		'150'
-	);
-
-	let noOfAC = prompt(
-		'Enter the number of household with air conditioning',
-		'50'
-	);
-
-	let noOfSP = prompt('Enter the number of household with solar panels', 
-	'20'
-	);
-
-
-	// Add data to object
-	let stateData = {state, noOfHouseholds, noOfAC, noOfSP };
-	//Push data to array of objects
-	stateDataArr.push(stateData);
-
-	//Check if user would like to add more data
-	const answer = confirm('Would you like to add more state data?');
+	<script> 
 	
-	//If false break out of while loop
-	if(answer == false){
-		break;
-	}
+	  function isValidStateName(validState) {
+  let states = ['nsw', 'qld', 'vic', 'nt', 'sa', 'wa', 'act', 'tas'];
 
-	//console.log('First array data is: ' + stateData.state);
+  validStateLower = validState.toLowerCase();
+
+  for (let i = 0; i < states.length; i++) {
+    if (validStateLower === states[i]) {
+      return 1;
+    }
+  }
+}
+
+
+//Function to check if a number has been entered. 
+function isValidNumber(number){
+
+//Create max and min numbers
+const MAXNUMBER = Number.MAX_SAFE_INTEGER;
+const MINNUMBER = 0;
+
+//check if number is between both min and max values
+if(number < MAXNUMBER && number > MINNUMBER){
+
+  return 1 ;
 
 }
 
-//Check array data
-//for(let i = 0; i < arr.length; i++){
-	//console.log(arr[i]);
-//}
+}
 
-	return stateDataArr //stateData;
 
+//Function to obtain user data
+function obtainStateData() {
+  var stateDataArr = [];
+
+  while (true) {
+    // Obtain the information from user input
+
+
+    let state = prompt('Enter state Name', 'NSW');
+
+      // Check if state entered is valid
+      if(isValidStateName(state) !== 1){
+        alert("Not a valid state name");
+        break;
+      }
+	
+
+    let noOfHouseholds = prompt(
+      'Enter the number of households in the state',
+      '150'
+    );
+
+	// Check if number entered is valid
+    if(isValidNumber(noOfHouseholds) !== 1){
+      alert("Please enter a number");
+      break;
+    }
+
+  
+    let noOfAC = prompt(
+      'Enter the number of household with air conditioning',
+      '50'
+    );
+
+	// Check if number entered is valid
+     if(isValidNumber(noOfAC) !== 1){
+      alert("Please enter a number");
+      break;
+    }
+
+    let noOfSP = prompt(
+      'Enter the number of household with solar panels',
+      '20'
+    );
+	
+	// Check if number entered is valid
+     if(isValidNumber(noOfSP) !== 1){
+      alert("Please enter a number");
+      break;
+    }
+
+    // Add data to object
+    let stateData = { state, noOfHouseholds, noOfAC, noOfSP };
+    //Push data to array of objects
+    stateDataArr.push(stateData);
+
+    //Check if user would like to add more data
+    const answer = confirm('Would you like to add more state data?');
+
+    //If false break out of while loop
+    if (answer == false) {
+      break;
+    }
+
+    //console.log('First array data is: ' + stateData.state);
+  }
+
+  //Check array data
+  //for(let i = 0; i < arr.length; i++){
+  //console.log(arr[i]);
+  //}
+
+  return stateDataArr; //stateData;
 }
 
 function calculatePercentage(userDataArray) {
+  let arrCalculatedData = [];
 
-let arrCalculatedData = [];	
+  //For loop to push data into array of objects
+  for (let i = 0; i < userDataArray.length; i++) {
+    let state = userDataArray[i].state;
+    let totalHouseholds = userDataArray[i].noOfHouseholds;
 
-//For loop to push data into array of objects
-for(let i = 0; i < userDataArray.length; i++){
+    //Not fixed calculations
+    let percentageOfACNF = (userDataArray[i].noOfAC / totalHouseholds) * 100;
+    let percentageOfSPNF = (userDataArray[i].noOfSP / totalHouseholds) * 100;
 
-let state = userDataArray[i].state;
-let totalHouseholds = userDataArray[i].noOfHouseholds; 
+    //Fixed calculations
+    let percentageOfAC = percentageOfACNF.toFixed(1);
+    let percentageOfSP = percentageOfSPNF.toFixed(1);
 
-//Not fixed calculations
-let percentageOfACNF = (userDataArray[i].noOfAC / totalHouseholds) * 100;
-let percentageOfSPNF = (userDataArray[i].noOfSP / totalHouseholds) * 100;
+    //Object data
+    let calcualtions = {
+      state,
+      totalHouseholds,
+      percentageOfAC,
+      percentageOfSP,
+    };
+    //Push data to array of objects
+    arrCalculatedData.push(calcualtions);
+  }
+  //Check array data
+  //for(let i = 0; i < arrCalculatedData.length; i++){
+  //console.log(arrCalculatedData[i]);
+  //	}
 
-//Fixed calculations
-let percentageOfAC = percentageOfACNF.toFixed(2);
-let percentageOfSP = percentageOfSPNF.toFixed(2);
+  //let calcualtions = {totalHouseholds, percentageOfAC, percentageOfSP}
 
-//Object data
-let calcualtions = {state, totalHouseholds, percentageOfAC, percentageOfSP};
-//Push data to array of objects
-arrCalculatedData.push(calcualtions);
-	
+
+//Calculate total figures for total number of states entered
+let totalNoOfHouseholds = 0;
+let totalnoOfAC = 0;
+let totalnoOfSP = 0;
+ 
+ //For loop for summation
+  for(let i = 0; i < userDataArray.length; i++){
+
+      totalNoOfHouseholds += parseInt(userDataArray[i].noOfHouseholds);
+
+  }
+   //For loop for summation
+  for(let i = 0; i < userDataArray.length; i++){
+
+    totalnoOfAC += parseInt(userDataArray[i].noOfAC);
+
+  }
+	//For loop for summation
+  for(let i = 0; i < userDataArray.length; i++){
+
+    totalnoOfSP += parseInt(userDataArray[i].noOfSP);
+
+  }
+
+// Total percentages calculation
+let percentageOfACNFTotal = (totalnoOfAC/ totalNoOfHouseholds) * 100;
+let percentageOfSPNFTotal = (totalnoOfSP/ totalNoOfHouseholds) * 100;
+
+//Push totals to array object
+arrCalculatedData.push(totalNoOfHouseholds);
+arrCalculatedData.push(percentageOfACNFTotal);
+arrCalculatedData.push(percentageOfSPNFTotal);
+
+//Check values of total calcs
+//console.log(totalNoOfHouseholds);
+//console.log(percentageOfACNFTotal);
+
+
+  console.log(arrCalculatedData);
+  return arrCalculatedData;
 }
-	//Check array data
-	//for(let i = 0; i < arrCalculatedData.length; i++){
-	//console.log(arrCalculatedData[i]);
-//	}
-
-	//let calcualtions = {totalHouseholds, percentageOfAC, percentageOfSP}
 
 
-	return arrCalculatedData;
+
+function tabulateData(data) {
+  //Make table for data
+
+  document.write(
+    '<table> <tr> <th>	State </th> <th>	Houses </th> <th>	% of houses with AC </th> <th>	% of houses with Solar</th> </tr>'
+  );
+  for (let i = 0; i < data.length - 3; i++) {
+    document.write(
+      '<tr><td>	' +
+        data[i].state +
+        '</td><td>	' +
+        data[i].totalHouseholds +
+        '</td><td>	' +
+        data[i].percentageOfAC +
+        '</td><td>	' +
+        data[i].percentageOfSP +
+        '</td></tr>' +
+        '<br>'
+    );
+
+    document.write('</table>');
+  }
+
+  document.write(
+    '<table> <tr> <th>	Total Houses </th> <th> Total	% of houses with AC </th> <th>	Total % of houses with Solar</th> </tr>'
+  );
+
+
+
+
+
+//obtian positions of total figures in the array
+let positionTotalHouseholds = data.length - 3;
+let totalHouseholdsAll = data[positionTotalHouseholds];
+
+let positionTotalNoOfAC = data.length - 2;
+let totalNoOfAcAll = data[positionTotalNoOfAC];
+
+let positionTotalNoOfSP = data.length -1;
+let totalNoOfSPAll = data[positionTotalNoOfSP];
+
+//Create table for total figures
+document.write(
+      '<tr><td>	' +
+        totalHouseholdsAll +
+        '</td><td>	' +
+        totalNoOfAcAll +
+        '</td><td>	' +
+        totalNoOfSPAll +
+        '</td></tr>' +
+        '<br>'
+    );
+     document.write('</table>');
+
+
 }
 
-
-function tabulateData(data){
-
-//Make table for data
-
-document.write("<table> <tr> <th>	State </th> <th>	Houses </th> <th>	% of houses with AC </th> <th>	% of houses with Solar</th> </tr>")
-for(let i = 0; i < data.length; i++){
-
-	document.write( "<tr><td>	" 
-								+ data[i].state 
-								+ "</td><td>	"
-								+ data[i].totalHouseholds
-								+ "</td><td>	"	
-								+ data[i].percentageOfAC 
-								+ "</td><td>	"	
-								+ data[i].percentageOfSP
-								+ "</td></tr>"	
-								+ "<br>"
-	);
-
-	document.write("</table>");
-}
-
-}
-
+//setup variable
 let userData = [];
 let calculatedData = [];
 
@@ -124,10 +255,8 @@ calculatedData = calculatePercentage(userData);
 //Tabulate data
 tabulateData(calculatedData);
 
-
     </script> 
   </head> 
   <body> 
-    <!-- Not much to see here. -->
   </body> 
 </html> 
